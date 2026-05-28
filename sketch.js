@@ -111,6 +111,20 @@ function setup() {
   } catch (e) {
     console.error('Error loading cierre-previa content:', e);
   }
+
+  try {
+    // Poblar el overlay de simetria previa
+    const simetriaPrevTitulo = document.getElementById('simetria-previa-titulo');
+    const simetriaPrevSub = document.getElementById('simetria-previa-subtitulo');
+    const simetriaPrevTexto = document.getElementById('simetria-previa-texto');
+    if (simetriaPrevTitulo && simetriaPrevSub && simetriaPrevTexto) {
+      simetriaPrevTitulo.textContent = SIMETRIA_PREVIA.titulo;
+      simetriaPrevSub.textContent = SIMETRIA_PREVIA.subtitulo;
+      setReadableText(simetriaPrevTexto, SIMETRIA_PREVIA.texto);
+    }
+  } catch (e) {
+    console.error('Error loading simetria-previa content:', e);
+  }
 }
 
 function escapeHTML(text) {
@@ -156,11 +170,12 @@ function setLey(n) {
   const overlaySemejanzaPrevia = document.getElementById('semejanza-previa-overlay');
   const overlayContinuidadPrevia = document.getElementById('continuidad-previa-overlay');
   const overlayCierrePrevia = document.getElementById('cierre-previa-overlay');
+  const overlaySimetriaPrevia = document.getElementById('simetria-previa-overlay');
   const sketchCanvas = document.querySelector('#sketch canvas');
   const sliderWrap = document.getElementById('ley-slider');
   
   if (sliderWrap) {
-    sliderWrap.style.display = ([2, 4, 6, 8, 9].includes(n)) ? 'block' : 'none';
+    sliderWrap.style.display = ([2, 4, 6, 8, 10].includes(n)) ? 'block' : 'none';
   }
   
   if (n === 0) {
@@ -169,6 +184,7 @@ function setLey(n) {
     if (overlaySemejanzaPrevia) overlaySemejanzaPrevia.style.display = 'none';
     if (overlayContinuidadPrevia) overlayContinuidadPrevia.style.display = 'none';
     if (overlayCierrePrevia) overlayCierrePrevia.style.display = 'none';
+    if (overlaySimetriaPrevia) overlaySimetriaPrevia.style.display = 'none';
     if (sketchCanvas) sketchCanvas.style.display = 'none';
   } else if (n === 1) {
     if (overlayIntro) overlayIntro.style.display = 'none';
@@ -176,6 +192,7 @@ function setLey(n) {
     if (overlaySemejanzaPrevia) overlaySemejanzaPrevia.style.display = 'none';
     if (overlayContinuidadPrevia) overlayContinuidadPrevia.style.display = 'none';
     if (overlayCierrePrevia) overlayCierrePrevia.style.display = 'none';
+    if (overlaySimetriaPrevia) overlaySimetriaPrevia.style.display = 'none';
     if (sketchCanvas) sketchCanvas.style.display = 'none';
   } else if (n === 3) {
     if (overlayIntro) overlayIntro.style.display = 'none';
@@ -183,6 +200,7 @@ function setLey(n) {
     if (overlaySemejanzaPrevia) overlaySemejanzaPrevia.style.display = 'block';
     if (overlayContinuidadPrevia) overlayContinuidadPrevia.style.display = 'none';
     if (overlayCierrePrevia) overlayCierrePrevia.style.display = 'none';
+    if (overlaySimetriaPrevia) overlaySimetriaPrevia.style.display = 'none';
     if (sketchCanvas) sketchCanvas.style.display = 'none';
   } else if (n === 5) {
     if (overlayIntro) overlayIntro.style.display = 'none';
@@ -190,6 +208,7 @@ function setLey(n) {
     if (overlaySemejanzaPrevia) overlaySemejanzaPrevia.style.display = 'none';
     if (overlayContinuidadPrevia) overlayContinuidadPrevia.style.display = 'block';
     if (overlayCierrePrevia) overlayCierrePrevia.style.display = 'none';
+    if (overlaySimetriaPrevia) overlaySimetriaPrevia.style.display = 'none';
     if (sketchCanvas) sketchCanvas.style.display = 'none';
   } else if (n === 7) {
     if (overlayIntro) overlayIntro.style.display = 'none';
@@ -197,6 +216,15 @@ function setLey(n) {
     if (overlaySemejanzaPrevia) overlaySemejanzaPrevia.style.display = 'none';
     if (overlayContinuidadPrevia) overlayContinuidadPrevia.style.display = 'none';
     if (overlayCierrePrevia) overlayCierrePrevia.style.display = 'block';
+    if (overlaySimetriaPrevia) overlaySimetriaPrevia.style.display = 'none';
+    if (sketchCanvas) sketchCanvas.style.display = 'none';
+  } else if (n === 9) {
+    if (overlayIntro) overlayIntro.style.display = 'none';
+    if (overlayAgrup) overlayAgrup.style.display = 'none';
+    if (overlaySemejanzaPrevia) overlaySemejanzaPrevia.style.display = 'none';
+    if (overlayContinuidadPrevia) overlayContinuidadPrevia.style.display = 'none';
+    if (overlayCierrePrevia) overlayCierrePrevia.style.display = 'none';
+    if (overlaySimetriaPrevia) overlaySimetriaPrevia.style.display = 'block';
     if (sketchCanvas) sketchCanvas.style.display = 'none';
   } else {
     if (overlayIntro) overlayIntro.style.display = 'none';
@@ -204,6 +232,7 @@ function setLey(n) {
     if (overlaySemejanzaPrevia) overlaySemejanzaPrevia.style.display = 'none';
     if (overlayContinuidadPrevia) overlayContinuidadPrevia.style.display = 'none';
     if (overlayCierrePrevia) overlayCierrePrevia.style.display = 'none';
+    if (overlaySimetriaPrevia) overlaySimetriaPrevia.style.display = 'none';
     if (sketchCanvas) sketchCanvas.style.display = '';
     redraw();
   }
@@ -246,7 +275,7 @@ function draw() {
     case 4: drawSemejanza(gw, gh); break;
     case 6: drawContinuidad(gw, gh); break;
     case 8: drawCierre(gw, gh); break;
-    case 9: drawSimetria(gw, gh); break;
+    case 10: drawSimetria(gw, gh); break;
     default: drawProximidad(gw, gh); break;
   }
   pop();
@@ -266,7 +295,8 @@ function getTituloLey(n) {
     case 6: return "3) Continuidad";
     case 7: return "Completar lo invisible: El Cierre";
     case 8: return "4) Cierre (Triángulo de Kanizsa)";
-    case 9: return "5) Simetría / Pregnancia";
+    case 9: return "El orden perfecto: La Simetría y la Pregnancia";
+    case 10: return "5) Simetría / Pregnancia";
     default: return "";
   }
 }

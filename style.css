@@ -239,6 +239,42 @@ canvas {
   margin: 0 auto;
 }
 
+#simetria-previa-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 90px);
+  overflow-y: auto;
+  background: #fafafa;
+  z-index: 5;
+  box-sizing: border-box;
+  padding: 48px 24px 40px;
+  font-family: Arial, sans-serif;
+}
+
+#simetria-previa-inner {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+#simetria-previa-overlay h1 {
+  font-size: clamp(22px, 2.6vw, 32px);
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 24px;
+  line-height: 1.4;
+}
+
+#simetria-previa-overlay p {
+  font-size: clamp(16px, 1.25vw, 20px);
+  line-height: 1.8;
+  color: #222;
+  margin: 0 0 18px;
+  text-wrap: pretty;
+}
+
 #cierre-previa-overlay h1 {
   font-size: clamp(22px, 2.6vw, 32px);
   font-weight: 700;
@@ -313,7 +349,8 @@ canvas {
   #agrupacion-overlay,
   #semejanza-previa-overlay,
   #continuidad-previa-overlay,
-  #cierre-previa-overlay {
+  #cierre-previa-overlay,
+  #simetria-previa-overlay {
     padding: 28px 18px 28px;
   }
 
@@ -321,7 +358,8 @@ canvas {
   #agrupacion-overlay p,
   #semejanza-previa-overlay p,
   #continuidad-previa-overlay p,
-  #cierre-previa-overlay p {
+  #cierre-previa-overlay p,
+  #simetria-previa-overlay p {
     font-size: 18px;
     line-height: 1.85;
   }
@@ -330,7 +368,8 @@ canvas {
   #agrupacion-overlay h1,
   #semejanza-previa-overlay h1,
   #continuidad-previa-overlay h1,
-  #cierre-previa-overlay h1 {
+  #cierre-previa-overlay h1,
+  #simetria-previa-overlay h1 {
     margin-bottom: 18px;
   }
 }

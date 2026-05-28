@@ -67,6 +67,23 @@ Fijate cómo, a pesar de que las líneas se cruzan constantemente, tus ojos se n
 ¿Notás cómo tu propia mente te obliga a percibir dos trazos continuos y fluidos?`
 };
 
+const SIMETRIA_PREVIA = {
+  titulo: "El orden perfecto: La Simetría y la Pregnancia",
+  subtitulo: '"Tu mente busca siempre alcanzar la paz y la perfección visual."',
+  texto: `Llegamos a la última etapa de nuestro recorrido. Ya viste cómo tu cerebro agrupa por distancia, conecta por color y hasta inventa contornos invisibles.
+
+Pero, ¿cuál es la meta final de todo este esfuerzo?
+
+Rudolf Arnheim nos da la respuesta a través de la Ley de Pregnancia. Esta regla maestra dice que tu sistema visual siempre va a intentar organizar el caos para lograr la estructura más regular, estable y simétrica que sea posible.
+
+Por eso disfrutamos tanto contemplando la simetría. Para tu mente, la simetría es la imagen viva de la paz y la perfección alcanzadas. Es el momento exacto donde todas las fuerzas y tensiones visuales logran por fin equilibrarse.
+
+Ahora, abrí la pantalla número 5 en tu celular.
+Jugá con el deslizador para esparcir y luego volver a ordenar los elementos que aparecen.
+
+Fijate cómo el caos y la asimetría te generan cierta tensión o inquietud visual. ¿Notás cómo, al alcanzar finalmente la simetría, experimentás una sensación inmediata de claridad y reposo?`
+};
+
 const CIERRE_PREVIA = {
   titulo: "Completar lo invisible: El Cierre",
   subtitulo: '"Tu cerebro es capaz de dibujar contornos que no existen en la realidad física."',
