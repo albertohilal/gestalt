@@ -16,54 +16,86 @@ function setup() {
   rectMode(CENTER);
   noLoop();
 
-  // Poblar el overlay de intro con los textos del contenido.js
-  document.getElementById('intro-titulo').textContent        = INTRO.titulo;
-  document.getElementById('intro-gestalt-titulo').textContent = INTRO.gestalt.titulo;
-  setReadableText(document.getElementById('intro-gestalt-texto'), INTRO.gestalt.texto);
-  document.getElementById('intro-arnheim-titulo').textContent  = INTRO.arnheim.titulo;
-  setReadableText(document.getElementById('intro-arnheim-texto'), INTRO.arnheim.texto);
-
-  // Set up slider and buttons
-  const slider = document.getElementById('parametro-slider');
-  if (slider) {
-    slider.value = parametro;
-    slider.addEventListener('input', function() {
-      parametro = parseFloat(this.value);
-      document.getElementById('parametro-value').textContent = parametro.toFixed(2);
-      redraw();
-    });
-  }
-  // Mostrar intro al inicio
-  setLey(0);
-
-  // Poblar el overlay de agrupación
-  const agrupTitulo = document.getElementById('agrupacion-titulo');
-  const agrupSub = document.getElementById('agrupacion-subtitulo');
-  const agrupTexto = document.getElementById('agrupacion-texto');
-  if (agrupTitulo && agrupSub && agrupTexto) {
-    agrupTitulo.textContent = AGRUPACION.titulo;
-    agrupSub.textContent = AGRUPACION.subtitulo;
-    setReadableText(agrupTexto, AGRUPACION.texto);
+  try {
+    // Poblar el overlay de intro con los textos del contenido.js
+    const introTitulo = document.getElementById('intro-titulo');
+    const introGestaltTitulo = document.getElementById('intro-gestalt-titulo');
+    const introGestaltTexto = document.getElementById('intro-gestalt-texto');
+    const introArnheimTitulo = document.getElementById('intro-arnheim-titulo');
+    const introArnheimTexto = document.getElementById('intro-arnheim-texto');
+    
+    if (introTitulo) introTitulo.textContent = INTRO.titulo;
+    if (introGestaltTitulo) introGestaltTitulo.textContent = INTRO.gestalt.titulo;
+    if (introGestaltTexto) setReadableText(introGestaltTexto, INTRO.gestalt.texto);
+    if (introArnheimTitulo) introArnheimTitulo.textContent = INTRO.arnheim.titulo;
+    if (introArnheimTexto) setReadableText(introArnheimTexto, INTRO.arnheim.texto);
+  } catch (e) {
+    console.error('Error loading intro content:', e);
   }
 
-  // Poblar el overlay de semejanza previa
-  const semejPrevTitulo = document.getElementById('semejanza-previa-titulo');
-  const semejPrevSub = document.getElementById('semejanza-previa-subtitulo');
-  const semejPrevTexto = document.getElementById('semejanza-previa-texto');
-  if (semejPrevTitulo && semejPrevSub && semejPrevTexto) {
-    semejPrevTitulo.textContent = SEMEJANZA_PREVIA.titulo;
-    semejPrevSub.textContent = SEMEJANZA_PREVIA.subtitulo;
-    setReadableText(semejPrevTexto, SEMEJANZA_PREVIA.texto);
+  try {
+    // Set up slider and buttons
+    const slider = document.getElementById('parametro-slider');
+    if (slider) {
+      slider.value = parametro;
+      slider.addEventListener('input', function() {
+        parametro = parseFloat(this.value);
+        const paramValue = document.getElementById('parametro-value');
+        if (paramValue) paramValue.textContent = parametro.toFixed(2);
+        redraw();
+      });
+    }
+  } catch (e) {
+    console.error('Error setting up slider:', e);
   }
 
-  // Poblar el overlay de continuidad previa
-  const contPrevTitulo = document.getElementById('continuidad-previa-titulo');
-  const contPrevSub = document.getElementById('continuidad-previa-subtitulo');
-  const contPrevTexto = document.getElementById('continuidad-previa-texto');
-  if (contPrevTitulo && contPrevSub && contPrevTexto) {
-    contPrevTitulo.textContent = CONTINUIDAD_PREVIA.titulo;
-    contPrevSub.textContent = CONTINUIDAD_PREVIA.subtitulo;
-    setReadableText(contPrevTexto, CONTINUIDAD_PREVIA.texto);
+  try {
+    // Mostrar intro al inicio
+    setLey(0);
+  } catch (e) {
+    console.error('Error calling setLey(0):', e);
+  }
+
+  try {
+    // Poblar el overlay de agrupación
+    const agrupTitulo = document.getElementById('agrupacion-titulo');
+    const agrupSub = document.getElementById('agrupacion-subtitulo');
+    const agrupTexto = document.getElementById('agrupacion-texto');
+    if (agrupTitulo && agrupSub && agrupTexto) {
+      agrupTitulo.textContent = AGRUPACION.titulo;
+      agrupSub.textContent = AGRUPACION.subtitulo;
+      setReadableText(agrupTexto, AGRUPACION.texto);
+    }
+  } catch (e) {
+    console.error('Error loading agrupacion content:', e);
+  }
+
+  try {
+    // Poblar el overlay de semejanza previa
+    const semejPrevTitulo = document.getElementById('semejanza-previa-titulo');
+    const semejPrevSub = document.getElementById('semejanza-previa-subtitulo');
+    const semejPrevTexto = document.getElementById('semejanza-previa-texto');
+    if (semejPrevTitulo && semejPrevSub && semejPrevTexto) {
+      semejPrevTitulo.textContent = SEMEJANZA_PREVIA.titulo;
+      semejPrevSub.textContent = SEMEJANZA_PREVIA.subtitulo;
+      setReadableText(semejPrevTexto, SEMEJANZA_PREVIA.texto);
+    }
+  } catch (e) {
+    console.error('Error loading semejanza-previa content:', e);
+  }
+
+  try {
+    // Poblar el overlay de continuidad previa
+    const contPrevTitulo = document.getElementById('continuidad-previa-titulo');
+    const contPrevSub = document.getElementById('continuidad-previa-subtitulo');
+    const contPrevTexto = document.getElementById('continuidad-previa-texto');
+    if (contPrevTitulo && contPrevSub && contPrevTexto) {
+      contPrevTitulo.textContent = CONTINUIDAD_PREVIA.titulo;
+      contPrevSub.textContent = CONTINUIDAD_PREVIA.subtitulo;
+      setReadableText(contPrevTexto, CONTINUIDAD_PREVIA.texto);
+    }
+  } catch (e) {
+    console.error('Error loading continuidad-previa content:', e);
   }
 }
 
@@ -111,36 +143,38 @@ function setLey(n) {
   const overlayContinuidadPrevia = document.getElementById('continuidad-previa-overlay');
   const sketchCanvas = document.querySelector('#sketch canvas');
   const sliderWrap = document.getElementById('ley-slider');
+  
   if (sliderWrap) {
     sliderWrap.style.display = ([2, 4, 6, 7, 8].includes(n)) ? 'block' : 'none';
   }
+  
   if (n === 0) {
-    overlayIntro.style.display = 'block';
-    overlayAgrup.style.display = 'none';
+    if (overlayIntro) overlayIntro.style.display = 'block';
+    if (overlayAgrup) overlayAgrup.style.display = 'none';
     if (overlaySemejanzaPrevia) overlaySemejanzaPrevia.style.display = 'none';
     if (overlayContinuidadPrevia) overlayContinuidadPrevia.style.display = 'none';
     if (sketchCanvas) sketchCanvas.style.display = 'none';
   } else if (n === 1) {
-    overlayIntro.style.display = 'none';
-    overlayAgrup.style.display = 'block';
+    if (overlayIntro) overlayIntro.style.display = 'none';
+    if (overlayAgrup) overlayAgrup.style.display = 'block';
     if (overlaySemejanzaPrevia) overlaySemejanzaPrevia.style.display = 'none';
     if (overlayContinuidadPrevia) overlayContinuidadPrevia.style.display = 'none';
     if (sketchCanvas) sketchCanvas.style.display = 'none';
   } else if (n === 3) {
-    overlayIntro.style.display = 'none';
-    overlayAgrup.style.display = 'none';
+    if (overlayIntro) overlayIntro.style.display = 'none';
+    if (overlayAgrup) overlayAgrup.style.display = 'none';
     if (overlaySemejanzaPrevia) overlaySemejanzaPrevia.style.display = 'block';
     if (overlayContinuidadPrevia) overlayContinuidadPrevia.style.display = 'none';
     if (sketchCanvas) sketchCanvas.style.display = 'none';
   } else if (n === 5) {
-    overlayIntro.style.display = 'none';
-    overlayAgrup.style.display = 'none';
+    if (overlayIntro) overlayIntro.style.display = 'none';
+    if (overlayAgrup) overlayAgrup.style.display = 'none';
     if (overlaySemejanzaPrevia) overlaySemejanzaPrevia.style.display = 'none';
     if (overlayContinuidadPrevia) overlayContinuidadPrevia.style.display = 'block';
     if (sketchCanvas) sketchCanvas.style.display = 'none';
   } else {
-    overlayIntro.style.display = 'none';
-    overlayAgrup.style.display = 'none';
+    if (overlayIntro) overlayIntro.style.display = 'none';
+    if (overlayAgrup) overlayAgrup.style.display = 'none';
     if (overlaySemejanzaPrevia) overlaySemejanzaPrevia.style.display = 'none';
     if (overlayContinuidadPrevia) overlayContinuidadPrevia.style.display = 'none';
     if (sketchCanvas) sketchCanvas.style.display = '';
