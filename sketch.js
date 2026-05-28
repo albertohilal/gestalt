@@ -2,7 +2,7 @@
 // Leyes de la Gestalt — p5.js (ES)
 // Teclas: 1–5 cambian de ley | [ y ] ajustan parámetro
 // ------------------------------------------------------------
-let leyActual = 0;     // 0 = intro, 1 = agrupación, 2 = ley 1, 3 = antes de 2, 4..7 = leyes 2..5
+let leyActual = 0;     // 0 = intro, 1 = agrupación, 2 = ley 1, 3 = antes de 2, 4 = ley 2, 5 = antes de 3, 6..8 = leyes 3..5
 let parametro = 0.5;   // 0..1 para modular cada ejemplo
 let desc = "";
 
@@ -19,9 +19,9 @@ function setup() {
   // Poblar el overlay de intro con los textos del contenido.js
   document.getElementById('intro-titulo').textContent        = INTRO.titulo;
   document.getElementById('intro-gestalt-titulo').textContent = INTRO.gestalt.titulo;
-  document.getElementById('intro-gestalt-texto').textContent  = INTRO.gestalt.texto;
+  setReadableText(document.getElementById('intro-gestalt-texto'), INTRO.gestalt.texto);
   document.getElementById('intro-arnheim-titulo').textContent  = INTRO.arnheim.titulo;
-  document.getElementById('intro-arnheim-texto').textContent   = INTRO.arnheim.texto;
+  setReadableText(document.getElementById('intro-arnheim-texto'), INTRO.arnheim.texto);
 
   // Set up slider and buttons
   const slider = document.getElementById('parametro-slider');
@@ -43,7 +43,7 @@ function setup() {
   if (agrupTitulo && agrupSub && agrupTexto) {
     agrupTitulo.textContent = AGRUPACION.titulo;
     agrupSub.textContent = AGRUPACION.subtitulo;
-    agrupTexto.textContent = AGRUPACION.texto;
+    setReadableText(agrupTexto, AGRUPACION.texto);
   }
 
   // Poblar el overlay de semejanza previa
@@ -53,8 +53,54 @@ function setup() {
   if (semejPrevTitulo && semejPrevSub && semejPrevTexto) {
     semejPrevTitulo.textContent = SEMEJANZA_PREVIA.titulo;
     semejPrevSub.textContent = SEMEJANZA_PREVIA.subtitulo;
-    semejPrevTexto.textContent = SEMEJANZA_PREVIA.texto;
+    setReadableText(semejPrevTexto, SEMEJANZA_PREVIA.texto);
   }
+
+  // Poblar el overlay de continuidad previa
+  const contPrevTitulo = document.getElementById('continuidad-previa-titulo');
+  const contPrevSub = document.getElementById('continuidad-previa-subtitulo');
+  const contPrevTexto = document.getElementById('continuidad-previa-texto');
+  if (contPrevTitulo && contPrevSub && contPrevTexto) {
+    contPrevTitulo.textContent = CONTINUIDAD_PREVIA.titulo;
+    contPrevSub.textContent = CONTINUIDAD_PREVIA.subtitulo;
+    setReadableText(contPrevTexto, CONTINUIDAD_PREVIA.texto);
+  }
+}
+
+function escapeHTML(text) {
+  return String(text)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function setReadableText(element, rawText) {
+  if (!element) return;
+  const source = String(rawText || '').trim();
+  if (!source) {
+    element.textContent = '';
+    return;
+  }
+
+  const explicitParagraphs = source
+    .split(/\n\s*\n/g)
+    .map(p => p.trim())
+    .filter(Boolean);
+
+  if (explicitParagraphs.length > 1) {
+    element.innerHTML = explicitParagraphs.map(p => escapeHTML(p)).join('<br><br>');
+    return;
+  }
+
+  const sentences = source.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [source];
+  const cleanSentences = sentences.map(s => s.trim()).filter(Boolean);
+  const blocks = [];
+  for (let i = 0; i < cleanSentences.length; i += 2) {
+    blocks.push(cleanSentences.slice(i, i + 2).join(' '));
+  }
+  element.innerHTML = blocks.map(b => escapeHTML(b)).join('<br><br>');
 }
 
 function setLey(n) {
@@ -62,30 +108,41 @@ function setLey(n) {
   const overlayIntro = document.getElementById('intro-overlay');
   const overlayAgrup = document.getElementById('agrupacion-overlay');
   const overlaySemejanzaPrevia = document.getElementById('semejanza-previa-overlay');
+  const overlayContinuidadPrevia = document.getElementById('continuidad-previa-overlay');
   const sketchCanvas = document.querySelector('#sketch canvas');
   const sliderWrap = document.getElementById('ley-slider');
   if (sliderWrap) {
-    sliderWrap.style.display = ([2, 4, 5, 6, 7].includes(n)) ? 'block' : 'none';
+    sliderWrap.style.display = ([2, 4, 6, 7, 8].includes(n)) ? 'block' : 'none';
   }
   if (n === 0) {
     overlayIntro.style.display = 'block';
     overlayAgrup.style.display = 'none';
     if (overlaySemejanzaPrevia) overlaySemejanzaPrevia.style.display = 'none';
+    if (overlayContinuidadPrevia) overlayContinuidadPrevia.style.display = 'none';
     if (sketchCanvas) sketchCanvas.style.display = 'none';
   } else if (n === 1) {
     overlayIntro.style.display = 'none';
     overlayAgrup.style.display = 'block';
     if (overlaySemejanzaPrevia) overlaySemejanzaPrevia.style.display = 'none';
+    if (overlayContinuidadPrevia) overlayContinuidadPrevia.style.display = 'none';
     if (sketchCanvas) sketchCanvas.style.display = 'none';
   } else if (n === 3) {
     overlayIntro.style.display = 'none';
     overlayAgrup.style.display = 'none';
     if (overlaySemejanzaPrevia) overlaySemejanzaPrevia.style.display = 'block';
+    if (overlayContinuidadPrevia) overlayContinuidadPrevia.style.display = 'none';
+    if (sketchCanvas) sketchCanvas.style.display = 'none';
+  } else if (n === 5) {
+    overlayIntro.style.display = 'none';
+    overlayAgrup.style.display = 'none';
+    if (overlaySemejanzaPrevia) overlaySemejanzaPrevia.style.display = 'none';
+    if (overlayContinuidadPrevia) overlayContinuidadPrevia.style.display = 'block';
     if (sketchCanvas) sketchCanvas.style.display = 'none';
   } else {
     overlayIntro.style.display = 'none';
     overlayAgrup.style.display = 'none';
     if (overlaySemejanzaPrevia) overlaySemejanzaPrevia.style.display = 'none';
+    if (overlayContinuidadPrevia) overlayContinuidadPrevia.style.display = 'none';
     if (sketchCanvas) sketchCanvas.style.display = '';
     redraw();
   }
@@ -126,9 +183,9 @@ function draw() {
     case 0: drawIntro(gw, gh); break;
     case 2: drawProximidad(gw, gh); break;
     case 4: drawSemejanza(gw, gh); break;
-    case 5: drawContinuidad(gw, gh); break;
-    case 6: drawCierre(gw, gh); break;
-    case 7: drawSimetria(gw, gh); break;
+    case 6: drawContinuidad(gw, gh); break;
+    case 7: drawCierre(gw, gh); break;
+    case 8: drawSimetria(gw, gh); break;
     default: drawProximidad(gw, gh); break;
   }
   pop();
@@ -144,9 +201,10 @@ function getTituloLey(n) {
     case 2: return "1) Proximidad";
     case 3: return "Más allá de la distancia: La Semejanza";
     case 4: return "2) Semejanza";
-    case 5: return "3) Continuidad";
-    case 6: return "4) Cierre (Triángulo de Kanizsa)";
-    case 7: return "5) Simetría / Pregnancia";
+    case 5: return "El fluir de la percepción: La Continuidad";
+    case 6: return "3) Continuidad";
+    case 7: return "4) Cierre (Triángulo de Kanizsa)";
+    case 8: return "5) Simetría / Pregnancia";
     default: return "";
   }
 }

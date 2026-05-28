@@ -16,7 +16,7 @@ const buttons = buttonMatches.map((m) => ({
   action: Number(m[1]),
 }));
 
-const expected = [0, 1, 2, 3, 4, 5, 6, 7];
+const expected = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 const actual = buttons.map((b) => b.action);
 
 const ok = expected.length === actual.length && expected.every((v, i) => v === actual[i]);

@@ -52,3 +52,17 @@ El grado en que se asemejan las partes por cualidades como la forma, el tamaño 
 Ahora, abrí la pantalla número 2 en tu celular.
 Exploremos esta nueva regla de agrupación. Ajusta tu pantalla y veamos qué sucede en tu mente cuando interactúan distintas formas y colores. Fijate cómo agrupás instantáneamente los círculos negros por un lado y los cuadrados grises por el otro. ¿Notás cómo la similitud tiene la fuerza suficiente para conectarlos y vencer el espacio vacío que los separa?`
 };
+
+const CONTINUIDAD_PREVIA = {
+  titulo: "El fluir de la percepción: La Continuidad",
+  subtitulo: '"Nuestros ojos prefieren el camino más suave y rechazan las interrupciones abruptas."',
+  texto: `Ya experimentaste cómo la distancia y la semejanza logran agrupar los elementos. Pero tu visión tiene otra herramienta fascinante para ordenar el mundo. Rudolf Arnheim lo llama el principio de la "forma consistente".
+
+¿Qué sucede cuando varias líneas se cruzan frente a nosotros? Tu cerebro no percibe un choque caótico de segmentos aislados. Al contrario, tu ojo elige de manera espontánea la continuación que mantenga la estructura de la forma. Nuestra mente busca siempre la dirección más simple y fluida posible.
+
+Ahora, abrí la pantalla número 3 en tu celular.
+Vamos a explorar esta nueva fuerza visual. Modificá la curva interactuando con tu pantalla.
+
+Fijate cómo, a pesar de que las líneas se cruzan constantemente, tus ojos se niegan a ver cuatro pedazos sueltos chocando en el centro.
+¿Notás cómo tu propia mente te obliga a percibir dos trazos continuos y fluidos?`
+};

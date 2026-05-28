@@ -124,7 +124,7 @@ canvas {
 }
 
 #intro-inner {
-  max-width: 820px;
+  max-width: 760px;
   margin: 0 auto;
 }
 
@@ -154,9 +154,10 @@ canvas {
 
 #intro-overlay p {
   font-size: clamp(16px, 1.25vw, 20px);
-  line-height: 1.5;
+  line-height: 1.65;
   color: #222;
   margin: 0;
+  text-wrap: pretty;
 }
 
 /* ============================================================
@@ -193,8 +194,28 @@ canvas {
   font-family: Arial, sans-serif;
 }
 
+#continuidad-previa-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 90px);
+  overflow-y: auto;
+  background: #fafafa;
+  z-index: 5;
+  box-sizing: border-box;
+  padding: 48px 24px 40px;
+  font-family: Arial, sans-serif;
+}
+
 #semejanza-previa-inner {
-  max-width: 820px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+#continuidad-previa-inner {
+  max-width: 760px;
   margin: 0 auto;
 }
 
@@ -206,15 +227,32 @@ canvas {
   line-height: 1.5;
 }
 
+#continuidad-previa-overlay h1 {
+  font-size: clamp(22px, 2.6vw, 32px);
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 24px;
+  line-height: 1.5;
+}
+
 #semejanza-previa-overlay p {
   font-size: clamp(16px, 1.25vw, 20px);
-  line-height: 1.5;
+  line-height: 1.65;
   color: #222;
   margin: 0;
+  text-wrap: pretty;
+}
+
+#continuidad-previa-overlay p {
+  font-size: clamp(16px, 1.25vw, 20px);
+  line-height: 1.65;
+  color: #222;
+  margin: 0;
+  text-wrap: pretty;
 }
 
 #agrupacion-inner {
-  max-width: 820px;
+  max-width: 760px;
   margin: 0 auto;
 }
 
@@ -228,7 +266,32 @@ canvas {
 
 #agrupacion-overlay p {
   font-size: clamp(16px, 1.25vw, 20px);
-  line-height: 1.5;
+  line-height: 1.65;
   color: #222;
   margin: 0;
+  text-wrap: pretty;
+}
+
+@media (max-width: 768px) {
+  #intro-overlay,
+  #agrupacion-overlay,
+  #semejanza-previa-overlay,
+  #continuidad-previa-overlay {
+    padding: 28px 18px 28px;
+  }
+
+  #intro-overlay p,
+  #agrupacion-overlay p,
+  #semejanza-previa-overlay p,
+  #continuidad-previa-overlay p {
+    font-size: 18px;
+    line-height: 1.7;
+  }
+
+  #intro-overlay h1,
+  #agrupacion-overlay h1,
+  #semejanza-previa-overlay h1,
+  #continuidad-previa-overlay h1 {
+    margin-bottom: 18px;
+  }
 }
