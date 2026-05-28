@@ -85,148 +85,133 @@
   <!-- p5.js local -->
   <script src="./libraries/p5.min.js"></script>
   <!-- contenido textual -->
-  <script src="./contenido.js"></script>
+  <script src="./contenido.js?v=3"></script>
   <!-- sketch p5 -->
-  <script src="./sketch.js"></script>
+  <script src="./sketch.js?v=3"></script>
 
   <!-- ============================================================
        SCRIPT PRINCIPAL — corre DESPUÉS de sketch.js y lo corrige.
        Funciona aunque el servidor tenga una versión vieja de sketch.js.
        ============================================================ -->
   <script>
-  (function () {
+  // ── Helpers ────────────────────────────────────────────────
+  function escHTML(t) {
+    return String(t)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
 
-    // ── Helpers ────────────────────────────────────────────────
-    function escHTML(t) {
-      return String(t)
-        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-        .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  function setReadableText(el, raw) {
+    if (!el) return;
+    var src = String(raw || '').trim();
+    if (!src) { el.textContent = ''; return; }
+    var parts = src.split(/\n\s*\n/g).map(function(p){ return p.trim(); }).filter(Boolean);
+    if (parts.length > 1) {
+      el.innerHTML = parts.map(escHTML).join('<br><br>'); return;
     }
+    var sents = src.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [src];
+    sents = sents.map(function(s){ return s.trim(); }).filter(Boolean);
+    var blocks = [];
+    for (var i = 0; i < sents.length; i += 2)
+      blocks.push(sents.slice(i, i+2).join(' '));
+    el.innerHTML = blocks.map(escHTML).join('<br><br>');
+  }
 
-    function setReadableText(el, raw) {
-      if (!el) return;
-      var src = String(raw || '').trim();
-      if (!src) { el.textContent = ''; return; }
-      var parts = src.split(/\n\s*\n/g).map(function(p){ return p.trim(); }).filter(Boolean);
-      if (parts.length > 1) {
-        el.innerHTML = parts.map(escHTML).join('<br><br>'); return;
-      }
-      var sents = src.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [src];
-      sents = sents.map(function(s){ return s.trim(); }).filter(Boolean);
-      var blocks = [];
-      for (var i = 0; i < sents.length; i += 2)
-        blocks.push(sents.slice(i, i+2).join(' '));
-      el.innerHTML = blocks.map(escHTML).join('<br><br>');
-    }
+  // ── setLey correcto — reemplaza cualquier versión anterior ─
+  window.setLey = function (n) {
+    window.leyActual = n;
 
-    // ── setLey correcto — reemplaza cualquier versión anterior ─
-    window.setLey = function (n) {
-      window.leyActual = n;
-
-      var ids = {
-        0: 'intro-overlay',
-        1: 'agrupacion-overlay',
-        3: 'semejanza-previa-overlay',
-        5: 'continuidad-previa-overlay',
-        7: 'cierre-previa-overlay',
-        9: 'simetria-previa-overlay'
-      };
-
-      // Ocultar todos los overlays
-      Object.keys(ids).forEach(function(k) {
-        var el = document.getElementById(ids[k]);
-        if (el) el.style.display = 'none';
-      });
-
-      var sketchDiv  = document.getElementById('sketch');
-      var sliderWrap = document.getElementById('ley-slider');
-
-      if (sliderWrap)
-        sliderWrap.style.display = ([2,4,6,8,10].indexOf(n) >= 0) ? 'block' : 'none';
-
-      if (ids.hasOwnProperty(n)) {
-        // Pantalla de texto
-        var overlay = document.getElementById(ids[n]);
-        if (overlay) overlay.style.display = 'block';
-        if (sketchDiv) sketchDiv.style.display = 'none';
-      } else {
-        // Pantalla de canvas
-        if (sketchDiv) sketchDiv.style.display = '';
-        if (typeof redraw === 'function') redraw();
-      }
+    var ids = {
+      0: 'intro-overlay',
+      1: 'agrupacion-overlay',
+      3: 'semejanza-previa-overlay',
+      5: 'continuidad-previa-overlay',
+      7: 'cierre-previa-overlay',
+      9: 'simetria-previa-overlay'
     };
 
-    // ── setup() de p5 reemplazado — el viejo sobreescribía botones ─
-    window.setup = function () {
-      var cnv = createCanvas(windowWidth, windowHeight);
-      cnv.parent('sketch');
-      textFont('Arial, sans-serif');
-      textWrap(WORD);
-      rectMode(CENTER);
-      noLoop();
-      // Slider
-      var slider = document.getElementById('parametro-slider');
-      if (slider) {
-        slider.value = typeof parametro !== 'undefined' ? parametro : 0.5;
-        slider.addEventListener('input', function () {
-          window.parametro = parseFloat(this.value);
-          var pv = document.getElementById('parametro-value');
-          if (pv) pv.textContent = window.parametro.toFixed(2);
-          redraw();
-        });
-      }
-    };
+    // Ocultar todos los overlays
+    Object.keys(ids).forEach(function(k) {
+      var el = document.getElementById(ids[k]);
+      if (el) el.style.display = 'none';
+    });
 
-    // ── Poblar overlays con contenido.js ──────────────────────
-    function set(id, val) {
-      var el = document.getElementById(id); if (el) el.textContent = val;
+    var sketchDiv  = document.getElementById('sketch');
+    var sliderWrap = document.getElementById('ley-slider');
+
+    if (sliderWrap)
+      sliderWrap.style.display = ([2,4,6,8,10].indexOf(n) >= 0) ? 'block' : 'none';
+
+    if (ids.hasOwnProperty(n)) {
+      var overlay = document.getElementById(ids[n]);
+      if (overlay) overlay.style.display = 'block';
+      if (sketchDiv) sketchDiv.style.display = 'none';
+    } else {
+      if (sketchDiv) sketchDiv.style.display = '';
+      if (typeof redraw === 'function') redraw();
     }
-    function setText(id, val) {
-      setReadableText(document.getElementById(id), val);
+  };
+
+  // ── Poblar overlays con contenido.js ─────────────────────
+  function _set(id, val) {
+    var el = document.getElementById(id); if (el) el.textContent = val;
+  }
+  function _setText(id, val) {
+    setReadableText(document.getElementById(id), val);
+  }
+
+  try {
+    _set('intro-titulo',          INTRO.titulo);
+    _set('intro-gestalt-titulo',  INTRO.gestalt.titulo);
+    _setText('intro-gestalt-texto', INTRO.gestalt.texto);
+    _set('intro-arnheim-titulo',  INTRO.arnheim.titulo);
+    _setText('intro-arnheim-texto', INTRO.arnheim.texto);
+  } catch(e) { console.error('intro:', e); }
+
+  try {
+    _set('agrupacion-titulo',    AGRUPACION.titulo);
+    _set('agrupacion-subtitulo', AGRUPACION.subtitulo);
+    _setText('agrupacion-texto', AGRUPACION.texto);
+  } catch(e) { console.error('agrupacion:', e); }
+
+  try {
+    _set('semejanza-previa-titulo',    SEMEJANZA_PREVIA.titulo);
+    _set('semejanza-previa-subtitulo', SEMEJANZA_PREVIA.subtitulo);
+    _setText('semejanza-previa-texto', SEMEJANZA_PREVIA.texto);
+  } catch(e) { console.error('semejanza-previa:', e); }
+
+  try {
+    _set('continuidad-previa-titulo',    CONTINUIDAD_PREVIA.titulo);
+    _set('continuidad-previa-subtitulo', CONTINUIDAD_PREVIA.subtitulo);
+    _setText('continuidad-previa-texto', CONTINUIDAD_PREVIA.texto);
+  } catch(e) { console.error('continuidad-previa:', e); }
+
+  try {
+    _set('cierre-previa-titulo',    CIERRE_PREVIA.titulo);
+    _set('cierre-previa-subtitulo', CIERRE_PREVIA.subtitulo);
+    _setText('cierre-previa-texto', CIERRE_PREVIA.texto);
+  } catch(e) { console.error('cierre-previa:', e); }
+
+  try {
+    _set('simetria-previa-titulo',    SIMETRIA_PREVIA.titulo);
+    _set('simetria-previa-subtitulo', SIMETRIA_PREVIA.subtitulo);
+    _setText('simetria-previa-texto', SIMETRIA_PREVIA.texto);
+  } catch(e) { console.error('simetria-previa:', e); }
+
+  // ── Restaurar botones y mostrar intro DESPUÉS de que p5.js
+  //    llame a setup() (que sobrescribe los onclick en la versión vieja)
+  window.addEventListener('load', function () {
+    // Reasignar onclick a todos los botones por su texto/posición
+    var botones = document.querySelectorAll('#ley-buttons button');
+    var mapa = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    for (var i = 0; i < botones.length; i++) {
+      (function(idx) {
+        botones[idx].onclick = function () { window.setLey(idx); };
+      })(mapa[i]);
     }
-
-    try {
-      set('intro-titulo',          INTRO.titulo);
-      set('intro-gestalt-titulo',  INTRO.gestalt.titulo);
-      setText('intro-gestalt-texto', INTRO.gestalt.texto);
-      set('intro-arnheim-titulo',  INTRO.arnheim.titulo);
-      setText('intro-arnheim-texto', INTRO.arnheim.texto);
-    } catch(e) { console.error('intro:', e); }
-
-    try {
-      set('agrupacion-titulo',    AGRUPACION.titulo);
-      set('agrupacion-subtitulo', AGRUPACION.subtitulo);
-      setText('agrupacion-texto', AGRUPACION.texto);
-    } catch(e) { console.error('agrupacion:', e); }
-
-    try {
-      set('semejanza-previa-titulo',    SEMEJANZA_PREVIA.titulo);
-      set('semejanza-previa-subtitulo', SEMEJANZA_PREVIA.subtitulo);
-      setText('semejanza-previa-texto', SEMEJANZA_PREVIA.texto);
-    } catch(e) { console.error('semejanza-previa:', e); }
-
-    try {
-      set('continuidad-previa-titulo',    CONTINUIDAD_PREVIA.titulo);
-      set('continuidad-previa-subtitulo', CONTINUIDAD_PREVIA.subtitulo);
-      setText('continuidad-previa-texto', CONTINUIDAD_PREVIA.texto);
-    } catch(e) { console.error('continuidad-previa:', e); }
-
-    try {
-      set('cierre-previa-titulo',    CIERRE_PREVIA.titulo);
-      set('cierre-previa-subtitulo', CIERRE_PREVIA.subtitulo);
-      setText('cierre-previa-texto', CIERRE_PREVIA.texto);
-    } catch(e) { console.error('cierre-previa:', e); }
-
-    try {
-      set('simetria-previa-titulo',    SIMETRIA_PREVIA.titulo);
-      set('simetria-previa-subtitulo', SIMETRIA_PREVIA.subtitulo);
-      setText('simetria-previa-texto', SIMETRIA_PREVIA.texto);
-    } catch(e) { console.error('simetria-previa:', e); }
-
-    // ── Mostrar pantalla intro ─────────────────────────────────
+    // Mostrar pantalla intro
     window.setLey(0);
-
-  })();
+  });
   </script>
 </body>
 </html>
