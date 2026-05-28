@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Leyes de la Gestalt — p5.js</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div id="intro-overlay">
+    <div id="intro-inner">
+      <h1 id="intro-titulo"></h1>
+      <hr>
+      <h2 class="gestalt" id="intro-gestalt-titulo"></h2>
+      <p id="intro-gestalt-texto"></p>
+      <h2 class="arnheim" id="intro-arnheim-titulo"></h2>
+      <p id="intro-arnheim-texto"></p>
+    </div>
+  </div>
+  <div id="agrupacion-overlay" style="display:none;">
+    <div id="agrupacion-inner">
+      <h1 id="agrupacion-titulo"></h1>
+      <h2 id="agrupacion-subtitulo" style="font-size:1.2em;color:#1a5aaa;font-weight:600;margin:18px 0 18px 0;"></h2>
+      <p id="agrupacion-texto"></p>
+    </div>
+  </div>
+  <div id="semejanza-previa-overlay" style="display:none;">
+    <div id="semejanza-previa-inner">
+      <h1 id="semejanza-previa-titulo"></h1>
+      <h2 id="semejanza-previa-subtitulo" style="font-size:1.2em;color:#1a5aaa;font-weight:600;margin:18px 0 18px 0;"></h2>
+      <p id="semejanza-previa-texto"></p>
+    </div>
+  </div>
+  <div id="ley-desc"></div>
+  <div id="sketch"></div>
+  <footer id="ley-footer">
+    <div id="ley-controls">
+      <div id="ley-buttons">
+        <button class="ley-btn" onclick="setLey(0)">Intro</button>
+        <button class="ley-btn" onclick="setLey(1)">Agrupación</button>
+        <button class="ley-btn" onclick="setLey(2)">1</button>
+        <button class="ley-btn" onclick="setLey(3)">Semejanza</button>
+        <button class="ley-btn" onclick="setLey(4)">2</button>
+        <button class="ley-btn" onclick="setLey(5)">3</button>
+        <button class="ley-btn" onclick="setLey(6)">4</button>
+        <button class="ley-btn" onclick="setLey(7)">5</button>
+      </div>
+      <div id="ley-slider">
+        <label for="parametro-slider" style="margin-right:8px;">Ajuste parámetro:</label>
+        <input type="range" id="parametro-slider" min="0" max="1" step="0.01" value="0.5" style="width:70%;">
+        <span id="parametro-value">0.50</span>
+      </div>
+    </div>
+  </footer>
+  <div class="help" id="help">
+    Atajos: <b>1</b> Proximidad · <b>2</b> Semejanza · <b>3</b> Continuidad ·
+    <b>4</b> Cierre · <b>5</b> Simetría/Pregnancia · <b>[</b>/<b>]</b> ajustan el parámetro de la escena
+  </div>
+
+  <!-- p5.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
+  <!-- contenido textual -->
+  <script src="./contenido.js"></script>
+  <!-- tu script -->
+  <script src="./sketch.js"></script>
+</body>
+</html>
