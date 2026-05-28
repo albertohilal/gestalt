@@ -97,6 +97,20 @@ function setup() {
   } catch (e) {
     console.error('Error loading continuidad-previa content:', e);
   }
+
+  try {
+    // Poblar el overlay de cierre previa
+    const cierrePrevTitulo = document.getElementById('cierre-previa-titulo');
+    const cierrePrevSub = document.getElementById('cierre-previa-subtitulo');
+    const cierrePrevTexto = document.getElementById('cierre-previa-texto');
+    if (cierrePrevTitulo && cierrePrevSub && cierrePrevTexto) {
+      cierrePrevTitulo.textContent = CIERRE_PREVIA.titulo;
+      cierrePrevSub.textContent = CIERRE_PREVIA.subtitulo;
+      setReadableText(cierrePrevTexto, CIERRE_PREVIA.texto);
+    }
+  } catch (e) {
+    console.error('Error loading cierre-previa content:', e);
+  }
 }
 
 function escapeHTML(text) {
@@ -141,11 +155,12 @@ function setLey(n) {
   const overlayAgrup = document.getElementById('agrupacion-overlay');
   const overlaySemejanzaPrevia = document.getElementById('semejanza-previa-overlay');
   const overlayContinuidadPrevia = document.getElementById('continuidad-previa-overlay');
+  const overlayCierrePrevia = document.getElementById('cierre-previa-overlay');
   const sketchCanvas = document.querySelector('#sketch canvas');
   const sliderWrap = document.getElementById('ley-slider');
   
   if (sliderWrap) {
-    sliderWrap.style.display = ([2, 4, 6, 7, 8].includes(n)) ? 'block' : 'none';
+    sliderWrap.style.display = ([2, 4, 6, 8, 9].includes(n)) ? 'block' : 'none';
   }
   
   if (n === 0) {
@@ -153,30 +168,42 @@ function setLey(n) {
     if (overlayAgrup) overlayAgrup.style.display = 'none';
     if (overlaySemejanzaPrevia) overlaySemejanzaPrevia.style.display = 'none';
     if (overlayContinuidadPrevia) overlayContinuidadPrevia.style.display = 'none';
+    if (overlayCierrePrevia) overlayCierrePrevia.style.display = 'none';
     if (sketchCanvas) sketchCanvas.style.display = 'none';
   } else if (n === 1) {
     if (overlayIntro) overlayIntro.style.display = 'none';
     if (overlayAgrup) overlayAgrup.style.display = 'block';
     if (overlaySemejanzaPrevia) overlaySemejanzaPrevia.style.display = 'none';
     if (overlayContinuidadPrevia) overlayContinuidadPrevia.style.display = 'none';
+    if (overlayCierrePrevia) overlayCierrePrevia.style.display = 'none';
     if (sketchCanvas) sketchCanvas.style.display = 'none';
   } else if (n === 3) {
     if (overlayIntro) overlayIntro.style.display = 'none';
     if (overlayAgrup) overlayAgrup.style.display = 'none';
     if (overlaySemejanzaPrevia) overlaySemejanzaPrevia.style.display = 'block';
     if (overlayContinuidadPrevia) overlayContinuidadPrevia.style.display = 'none';
+    if (overlayCierrePrevia) overlayCierrePrevia.style.display = 'none';
     if (sketchCanvas) sketchCanvas.style.display = 'none';
   } else if (n === 5) {
     if (overlayIntro) overlayIntro.style.display = 'none';
     if (overlayAgrup) overlayAgrup.style.display = 'none';
     if (overlaySemejanzaPrevia) overlaySemejanzaPrevia.style.display = 'none';
     if (overlayContinuidadPrevia) overlayContinuidadPrevia.style.display = 'block';
+    if (overlayCierrePrevia) overlayCierrePrevia.style.display = 'none';
+    if (sketchCanvas) sketchCanvas.style.display = 'none';
+  } else if (n === 7) {
+    if (overlayIntro) overlayIntro.style.display = 'none';
+    if (overlayAgrup) overlayAgrup.style.display = 'none';
+    if (overlaySemejanzaPrevia) overlaySemejanzaPrevia.style.display = 'none';
+    if (overlayContinuidadPrevia) overlayContinuidadPrevia.style.display = 'none';
+    if (overlayCierrePrevia) overlayCierrePrevia.style.display = 'block';
     if (sketchCanvas) sketchCanvas.style.display = 'none';
   } else {
     if (overlayIntro) overlayIntro.style.display = 'none';
     if (overlayAgrup) overlayAgrup.style.display = 'none';
     if (overlaySemejanzaPrevia) overlaySemejanzaPrevia.style.display = 'none';
     if (overlayContinuidadPrevia) overlayContinuidadPrevia.style.display = 'none';
+    if (overlayCierrePrevia) overlayCierrePrevia.style.display = 'none';
     if (sketchCanvas) sketchCanvas.style.display = '';
     redraw();
   }
@@ -218,8 +245,8 @@ function draw() {
     case 2: drawProximidad(gw, gh); break;
     case 4: drawSemejanza(gw, gh); break;
     case 6: drawContinuidad(gw, gh); break;
-    case 7: drawCierre(gw, gh); break;
-    case 8: drawSimetria(gw, gh); break;
+    case 8: drawCierre(gw, gh); break;
+    case 9: drawSimetria(gw, gh); break;
     default: drawProximidad(gw, gh); break;
   }
   pop();
@@ -237,8 +264,9 @@ function getTituloLey(n) {
     case 4: return "2) Semejanza";
     case 5: return "El fluir de la percepción: La Continuidad";
     case 6: return "3) Continuidad";
-    case 7: return "4) Cierre (Triángulo de Kanizsa)";
-    case 8: return "5) Simetría / Pregnancia";
+    case 7: return "Completar lo invisible: El Cierre";
+    case 8: return "4) Cierre (Triángulo de Kanizsa)";
+    case 9: return "5) Simetría / Pregnancia";
     default: return "";
   }
 }

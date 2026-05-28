@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Debug - Gestalt</title>
+</head>
+<body>
+  <h1>Debug Console</h1>
+  <div id="debug-log" style="border: 1px solid #ccc; padding: 10px; height: 400px; overflow-y: auto; background: #f5f5f5; font-family: monospace; font-size: 12px;">
+  </div>
+  <hr>
+  <script>
+    const log = document.getElementById('debug-log');
+    const originalLog = console.log;
+    const originalError = console.error;
+
+    function addLog(msg, color = '#000') {
+      const lines = log.innerHTML;
+      log.innerHTML = lines + `<div style="color: ${color}">[${new Date().toLocaleTimeString()}] ${msg}</div>`;
+      log.scrollTop = log.scrollHeight;
+    }
+
+    console.log = function(...args) {
+      addLog(args.join(' '));
+      originalLog.apply(console, args);
+    };
+
+    console.error = function(...args) {
+      addLog(args.join(' '), '#d00');
+      originalError.apply(console, args);
+    };
+
+    window.addEventListener('error', (e) => {
+      addLog(`ERROR: ${e.message} at ${e.filename}:${e.lineno}`, '#d00');
+    });
+
+    console.log('Debug script loaded');
+  </script>
+
+  <!-- p5.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('DOM loaded');
+      console.log('p5 available:', typeof p5 !== 'undefined');
+    });
+  </script>
+
+  <!-- contenido textual -->
+  <script src="./contenido.js"></script>
+  <script>
+    console.log('contenido.js loaded');
+    console.log('INTRO:', typeof INTRO !== 'undefined');
+    console.log('AGRUPACION:', typeof AGRUPACION !== 'undefined');
+    console.log('SEMEJANZA_PREVIA:', typeof SEMEJANZA_PREVIA !== 'undefined');
+    console.log('CONTINUIDAD_PREVIA:', typeof CONTINUIDAD_PREVIA !== 'undefined');
+  </script>
+
+  <!-- tu script -->
+  <script src="./sketch.js"></script>
+  <script>
+    console.log('sketch.js loaded');
+    console.log('setLey available:', typeof setLey !== 'undefined');
+  </script>
+</body>
+</html>

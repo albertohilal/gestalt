@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Test p5.js</title>
+</head>
+<body>
+  <h1>Test p5.js</h1>
+  <div id="sketch"></div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
+  <script>
+    console.log('p5 loaded:', typeof p5);
+    
+    function setup() {
+      console.log('setup() called');
+      createCanvas(400, 300);
+      background(200);
+      text('p5.js is working!', 20, 30);
+    }
+    
+    function draw() {
+      console.log('draw() called');
+    }
+  </script>
+</body>
+</html>

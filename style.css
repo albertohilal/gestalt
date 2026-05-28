@@ -219,6 +219,26 @@ canvas {
   margin: 0 auto;
 }
 
+#cierre-previa-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 90px);
+  overflow-y: auto;
+  background: #fafafa;
+  z-index: 5;
+  box-sizing: border-box;
+  padding: 48px 24px 40px;
+  font-family: Arial, sans-serif;
+}
+
+#cierre-previa-inner {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
 #semejanza-previa-overlay h1 {
   font-size: clamp(22px, 2.6vw, 32px);
   font-weight: 700;
@@ -276,14 +296,16 @@ canvas {
   #intro-overlay,
   #agrupacion-overlay,
   #semejanza-previa-overlay,
-  #continuidad-previa-overlay {
+  #continuidad-previa-overlay,
+  #cierre-previa-overlay {
     padding: 28px 18px 28px;
   }
 
   #intro-overlay p,
   #agrupacion-overlay p,
   #semejanza-previa-overlay p,
-  #continuidad-previa-overlay p {
+  #continuidad-previa-overlay p,
+  #cierre-previa-overlay p {
     font-size: 18px;
     line-height: 1.7;
   }
@@ -291,7 +313,8 @@ canvas {
   #intro-overlay h1,
   #agrupacion-overlay h1,
   #semejanza-previa-overlay h1,
-  #continuidad-previa-overlay h1 {
+  #continuidad-previa-overlay h1,
+  #cierre-previa-overlay h1 {
     margin-bottom: 18px;
   }
 }

@@ -3,10 +3,32 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Leyes de la Gestalt — p5.js</title>
+  <title>Leyes de la Gestalt — DEBUG</title>
   <link rel="stylesheet" href="./style.css" />
+  <style>
+    #debug-console {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 300px;
+      max-height: 400px;
+      background: rgba(0,0,0,0.9);
+      color: #0f0;
+      font-family: monospace;
+      font-size: 11px;
+      overflow-y: auto;
+      padding: 10px;
+      border: 2px solid #0f0;
+      z-index: 9999;
+    }
+    .debug-good { color: #0f0; }
+    .debug-error { color: #f00; }
+    .debug-warn { color: #ff0; }
+  </style>
 </head>
 <body>
+  <div id="debug-console"></div>
+  
   <div id="intro-overlay">
     <div id="intro-inner">
       <h1 id="intro-titulo"></h1>
@@ -17,7 +39,6 @@
       <p id="intro-arnheim-texto"></p>
     </div>
   </div>
-
   <div id="agrupacion-overlay" style="display:none;">
     <div id="agrupacion-inner">
       <h1 id="agrupacion-titulo"></h1>
@@ -39,13 +60,6 @@
       <p id="continuidad-previa-texto"></p>
     </div>
   </div>
-  <div id="cierre-previa-overlay" style="display:none;">
-    <div id="cierre-previa-inner">
-      <h1 id="cierre-previa-titulo"></h1>
-      <h2 id="cierre-previa-subtitulo" style="font-size:1.2em;color:#1a5aaa;font-weight:600;margin:18px 0 18px 0;"></h2>
-      <p id="cierre-previa-texto"></p>
-    </div>
-  </div>
   <div id="ley-desc"></div>
   <div id="sketch"></div>
   <footer id="ley-footer">
@@ -58,9 +72,8 @@
         <button class="ley-btn" onclick="setLey(4)">2</button>
         <button class="ley-btn" onclick="setLey(5)">Continuidad</button>
         <button class="ley-btn" onclick="setLey(6)">3</button>
-        <button class="ley-btn" onclick="setLey(7)">Cierre</button>
-        <button class="ley-btn" onclick="setLey(8)">4</button>
-        <button class="ley-btn" onclick="setLey(9)">5</button>
+        <button class="ley-btn" onclick="setLey(7)">4</button>
+        <button class="ley-btn" onclick="setLey(8)">5</button>
       </div>
       <div id="ley-slider">
         <label for="parametro-slider" style="margin-right:8px;">Ajuste parámetro:</label>
@@ -74,11 +87,49 @@
     <b>4</b> Cierre · <b>5</b> Simetría/Pregnancia · <b>[</b>/<b>]</b> ajustan el parámetro de la escena
   </div>
 
+  <!-- DEBUG CONSOLE -->
+  <script>
+    const DEBUG = document.getElementById('debug-console');
+    function log(msg, type = 'good') {
+      const className = `debug-${type}`;
+      DEBUG.innerHTML += `<div class="${className}">${msg}</div>`;
+      DEBUG.scrollTop = DEBUG.scrollHeight;
+      console.log(`[${type.toUpperCase()}] ${msg}`);
+    }
+
+    window.addEventListener('error', (e) => {
+      log(`ERROR: ${e.message} @ ${e.filename}:${e.lineno}`, 'error');
+    });
+
+    log('=== INICIALIZANDO ===', 'warn');
+  </script>
+
   <!-- p5.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
+  <script>
+    log('p5.js: ' + (typeof p5 !== 'undefined' ? 'OK' : 'FAIL'), 'good');
+  </script>
+
   <!-- contenido textual -->
   <script src="./contenido.js"></script>
+  <script>
+    log('INTRO: ' + (typeof INTRO !== 'undefined' ? 'OK' : 'FAIL'));
+    log('AGRUPACION: ' + (typeof AGRUPACION !== 'undefined' ? 'OK' : 'FAIL'));
+    log('SEMEJANZA_PREVIA: ' + (typeof SEMEJANZA_PREVIA !== 'undefined' ? 'OK' : 'FAIL'));
+    log('CONTINUIDAD_PREVIA: ' + (typeof CONTINUIDAD_PREVIA !== 'undefined' ? 'OK' : 'FAIL'));
+  </script>
+
   <!-- tu script -->
   <script src="./sketch.js"></script>
+  <script>
+    log('setLey: ' + (typeof setLey !== 'undefined' ? 'OK' : 'FAIL'));
+    log('setup() fue llamado por p5.js');
+    setTimeout(() => {
+      log('leyActual = ' + (typeof leyActual !== 'undefined' ? leyActual : '???'));
+      log('Canvas: ' + (document.querySelector('canvas') ? 'EXISTS' : 'MISSING'));
+      const intro = document.getElementById('intro-overlay');
+      log('intro-overlay display: ' + (intro ? intro.style.display : 'NO ELEMENT'));
+    }, 100);
+  </script>
 </body>
 </html>

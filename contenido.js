@@ -66,3 +66,20 @@ Vamos a explorar esta nueva fuerza visual. Modificá la curva interactuando con 
 Fijate cómo, a pesar de que las líneas se cruzan constantemente, tus ojos se niegan a ver cuatro pedazos sueltos chocando en el centro.
 ¿Notás cómo tu propia mente te obliga a percibir dos trazos continuos y fluidos?`
 };
+
+const CIERRE_PREVIA = {
+  titulo: "Completar lo invisible: El Cierre",
+  subtitulo: '"Tu cerebro es capaz de dibujar contornos que no existen en la realidad física."',
+  texto: `Hasta ahora experimentaste cómo tu mente agrupa elementos que están presentes en la pantalla. Pero tu visión puede ir un paso más allá.
+
+Rudolf Arnheim plantea una premisa fascinante: "En el campo visual hay, pues, más elementos que los que estimulan la retina".
+
+¿Qué significa esto en la práctica? Que frente a formas abiertas o incompletas, tu mente no se siente cómoda con el vacío o la ambigüedad.
+
+Para resolver esa tensión, tu propio sistema visual inventa lo que falta. Induce contornos invisibles y "cierra" la figura para alcanzar la estructura más simple y estable posible.
+
+Ahora, abrí la pantalla número 4 en tu celular.
+Deslizá el control y mirá atentamente el espacio central entre las tres formas negras.
+
+Fijate cómo aparece un triángulo blanco brillante, casi sólido, que se superpone al resto. Sin embargo, analizá la imagen con cuidado: no hay ni una sola línea trazada en el centro. ¡Ese contorno lo está dibujando tu propia mente en tiempo real!`
+};

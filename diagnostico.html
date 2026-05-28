@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Diagnóstico - Gestalt</title>
+  <style>
+    body { font-family: Arial, monospace; padding: 20px; background: #f0f0f0; }
+    .section { background: white; padding: 15px; margin: 10px 0px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .ok { color: #0d7; font-weight: bold; }
+    .error { color: #d00; font-weight: bold; }
+    .warn { color: #d90; font-weight: bold; }
+    code { background: #eee; padding: 2px 5px; border-radius: 3px; }
+  </style>
+</head>
+<body>
+  <h1>Diagnóstico de Gestalt</h1>
+  
+  <div class="section">
+    <h2>1. Verificación de navegador</h2>
+    <p>Navegador: <code id="browser"></code></p>
+    <p>Viewport: <code id="viewport"></code></p>
+  </div>
+
+  <div class="section">
+    <h2>2. Verificación de HTML</h2>
+    <ul id="html-checks"></ul>
+  </div>
+
+  <div class="section">
+    <h2>3. Verificación de recursos externos</h2>
+    <ul id="resources-checks"></ul>
+  </div>
+
+  <div class="section">
+    <h2>4. Estado del DOM después de carga</h2>
+    <div id="dom-state"></div>
+  </div>
+
+  <div class="section">
+    <h2>5. Intentar cargar index.html en iframe</h2>
+    <iframe src="./index.html" style="width:100%; height:400px; border: 2px solid #ccc;"></iframe>
+  </div>
+
+  <script>
+    // Browser info
+    document.getElementById('browser').textContent = navigator.userAgent.split(' ').slice(-2).join(' ');
+    document.getElementById('viewport').textContent = `${window.innerWidth}x${window.innerHeight}`;
+
+    // HTML checks
+    const htmlChecks = [
+      ['#intro-overlay', 'Overlay introducción'],
+      ['#agrupacion-overlay', 'Overlay agrupación'],
+      ['#semejanza-previa-overlay', 'Overlay semejanza previa'],
+      ['#continuidad-previa-overlay', 'Overlay continuidad previa'],
+      ['#sketch', 'Canvas container'],
+      ['#ley-buttons', 'Botones'],
+      ['#parametro-slider', 'Slider'],
+      ['#ley-footer', 'Footer']
+    ];
+
+    const htmlList = document.getElementById('html-checks');
+    htmlChecks.forEach(([id, label]) => {
+      const el = document.getElementById(id);
+      const status = el ? '<span class="ok">✓ Existe</span>' : '<span class="error">✗ Falta</span>';
+      htmlList.innerHTML += `<li>${label} (<code>${id}</code>): ${status}</li>`;
+    });
+
+    // Resources check
+    const resourceList = document.getElementById('resources-checks');
+    
+    // Check p5.js
+    fetch('https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js', { method: 'HEAD' })
+      .then(r => {
+        resourceList.innerHTML += `<li>p5.js CDN: <span class="ok">✓ Accesible</span></li>`;
+      })
+      .catch(e => {
+        resourceList.innerHTML += `<li>p5.js CDN: <span class="error">✗ Error: ${e.message}</span></li>`;
+      });
+
+    // Check local files
+    fetch('./contenido.js', { method: 'HEAD' })
+      .then(r => {
+        resourceList.innerHTML += `<li>contenido.js: <span class="ok">✓ Accesible</span></li>`;
+      })
+      .catch(e => {
+        resourceList.innerHTML += `<li>contenido.js: <span class="error">✗ Error</span></li>`;
+      });
+
+    fetch('./sketch.js', { method: 'HEAD' })
+      .then(r => {
+        resourceList.innerHTML += `<li>sketch.js: <span class="ok">✓ Accesible</span></li>`;
+      })
+      .catch(e => {
+        resourceList.innerHTML += `<li>sketch.js: <span class="error">✗ Error</span></li>`;
+      });
+
+    fetch('./style.css', { method: 'HEAD' })
+      .then(r => {
+        resourceList.innerHTML += `<li>style.css: <span class="ok">✓ Accesible</span></li>`;
+      })
+      .catch(e => {
+        resourceList.innerHTML += `<li>style.css: <span class="error">✗ Error</span></li>`;
+      });
+
+    // Check all element styles
+    setTimeout(() => {
+      const domState = document.getElementById('dom-state');
+      domState.innerHTML = '<pre>';
+      htmlChecks.forEach(([id]) => {
+        const el = document.getElementById(id);
+        if (el) {
+          const display = window.getComputedStyle(el).display;
+          const visibility = window.getComputedStyle(el).visibility;
+          domState.innerHTML += `${id}:\n  display: ${display}\n  visibility: ${visibility}\n\n`;
+        }
+      });
+      domState.innerHTML += '</pre>';
+    }, 500);
+  </script>
+</body>
+</html>
