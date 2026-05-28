@@ -5,9 +5,9 @@
 // ============================================================
 // VARIABLES GLOBALES
 // ============================================================
-let leyActual = 0;
-let parametro = 0.5;
-let desc = "";
+var leyActual = 0;
+var parametro = 0.5;
+var desc = "";
 
 // ============================================================
 // UTILIDADES DE TEXTO — independientes de p5.js
